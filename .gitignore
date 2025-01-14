@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Quart specific files
+instance/
+*.env
+
+# Environment variables
+.env
+*.env.*
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Pytest cache and test artifacts
+.pytest_cache/
+.tox/
+.cache/
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
