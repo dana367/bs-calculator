@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Calculation Results</h1>
+    
+    <!-- Display the results -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Input Parameters</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>Stock Price:</th>
+                            <td>${{ "%.2f"|format(calculation.stock_price) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Strike Price:</th>
+                            <td>${{ "%.2f"|format(calculation.strike_price) }}</td>
+                        </tr>
+                        <!-- Add other input parameters -->
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Option Prices</h5>
+                </div>
+                <div class="card-body">
+                    <h3>Call Option: ${{ "%.4f"|format(calculation.call_option_price) }}</h3>
+                    <h3>Put Option: ${{ "%.4f"|format(calculation.put_option_price) }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="/" class="btn btn-primary">New Calculation</a>
+    </div>
+</div>
+{% endblock %}

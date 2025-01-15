@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1>Black-Scholes Option Calculator</h1>
+    
+    <form action="/calculate" method="post" id="calculatorForm" class="mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="stock_price" class="form-label">Stock Price</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="stock_price" 
+                           name="stock_price" 
+                           step="0.01" 
+                           min="0.01" 
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="strike_price" class="form-label">Strike Price</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="strike_price" 
+                           name="strike_price" 
+                           step="0.01" 
+                           min="0.01" 
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="time_to_maturity" class="form-label">Time to Maturity (years)</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="time_to_maturity" 
+                           name="time_to_maturity" 
+                           step="0.01" 
+                           min="0.01" 
+                           required>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="risk_free_rate" class="form-label">Risk-Free Rate</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="risk_free_rate" 
+                           name="risk_free_rate" 
+                           step="0.001" 
+                           required>
+                    <div class="form-text">Enter as decimal (e.g., 0.05 for 5%)</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dividend_yield" class="form-label">Dividend Yield</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="dividend_yield" 
+                           name="dividend_yield" 
+                           step="0.001" 
+                           min="0" 
+                           required>
+                    <div class="form-text">Enter as decimal (e.g., 0.02 for 2%)</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="volatility" class="form-label">Volatility</label>
+                    <input type="number" 
+                           class="form-control" 
+                           id="volatility" 
+                           name="volatility" 
+                           step="0.01" 
+                           min="0.01" 
+                           max="1" 
+                           required>
+                    <div class="form-text">Enter as decimal between 0 and 1 (e.g., 0.2 for 20%)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('calculatorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Add loading state to button
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Calculating...';
+            
+            const formData = {
+                stock_price: parseFloat(document.getElementById('stock_price').value),
+                strike_price: parseFloat(document.getElementById('strike_price').value),
+                time_to_maturity: parseFloat(document.getElementById('time_to_maturity').value),
+                risk_free_rate: parseFloat(document.getElementById('risk_free_rate').value),
+                dividend_yield: parseFloat(document.getElementById('dividend_yield').value),
+                volatility: parseFloat(document.getElementById('volatility').value)
+            };
+        
+            try {
+                console.log('Sending data:', formData); // Debug log
+                
+                const response = await fetch('/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/html'
+                    },
+                    body: JSON.stringify(formData)
+                });
+        
+                console.log('Response status:', response.status); // Debug log
+        
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Calculation failed');
+                }
+        
+                // Get the HTML content
+                const htmlContent = await response.text();
+                console.log('Received HTML length:', htmlContent.length); // Debug log
+        
+                // Replace the page content
+                document.body.innerHTML = htmlContent;
+        
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error calculating option prices: ' + error.message);
+            } finally {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Calculate';
+            }
+        });
+        </script>
+        {% endblock %}
