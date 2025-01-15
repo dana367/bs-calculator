@@ -15,11 +15,11 @@
                     <table class="table">
                         <tr>
                             <th>Stock Price:</th>
-                            <td>${{ "%.2f"|format(calculation.stock_price) }}</td>
+                            <td>£{{ "%.2f"|format(calculation.stock_price) }}</td>
                         </tr>
                         <tr>
                             <th>Strike Price:</th>
-                            <td>${{ "%.2f"|format(calculation.strike_price) }}</td>
+                            <td>£{{ "%.2f"|format(calculation.strike_price) }}</td>
                         </tr>
                         <!-- Add other input parameters -->
                     </table>
@@ -33,8 +33,8 @@
                     <h5 class="card-title mb-0">Option Prices</h5>
                 </div>
                 <div class="card-body">
-                    <h3>Call Option: ${{ "%.4f"|format(calculation.call_option_price) }}</h3>
-                    <h3>Put Option: ${{ "%.4f"|format(calculation.put_option_price) }}</h3>
+                    <h3>Call Option: £{{ "%.4f"|format(calculation.call_option_price) }}</h3>
+                    <h3>Put Option: £{{ "%.4f"|format(calculation.put_option_price) }}</h3>
                 </div>
             </div>
         </div>
